@@ -682,6 +682,9 @@ public class Issue extends Resource {
         public List<Issue> issues = null;
         private IssueIterator issueIterator;
 
+        public SearchResult() {
+        }
+
         public SearchResult(RestClient restclient, String jql, String includedFields, 
                             String expandFields, Integer maxResults, Integer startAt)
                             throws JiraException {
