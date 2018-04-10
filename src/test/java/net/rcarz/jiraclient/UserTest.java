@@ -1,5 +1,6 @@
 package net.rcarz.jiraclient;
 
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
@@ -7,6 +8,7 @@ import org.powermock.api.mockito.PowerMockito;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.List;
 import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
@@ -63,6 +65,13 @@ public class UserTest {
         return json;
     }
 
+    private JSONArray getTestJSONArray() {
+        JSONArray jsonArray = new JSONArray();
+        jsonArray.add(getTestJSON());
+
+        return jsonArray;
+    }
+
     @Test
     public void testStatusToString() throws URISyntaxException {
         User user = new User(new RestClient(null, new URI("/123/asd")), getTestJSON());
@@ -92,6 +101,54 @@ public class UserTest {
         final RestClient restClient = PowerMockito.mock(RestClient.class);
         when(restClient.get(anyString(),anyMap())).thenReturn(getTestJSON());
         final User user = User.get(restClient, "username");
+
+        assertEquals(user.getName(), username);
+        assertEquals(user.getDisplayName(), displayName);
+        assertEquals(user.getEmail(), email);
+        assertEquals(user.getId(), userID);
+
+        Map<String, String> avatars = user.getAvatarUrls();
+
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=16", avatars.get("16x16"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24", avatars.get("24x24"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=32", avatars.get("32x32"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48", avatars.get("48x48"));
+
+        assertTrue(user.isActive());
+    }
+
+    @Test(expected = JiraException.class)
+    public void testSearchJSONError() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.get(anyString(),anyMap())).thenReturn(null);
+        User.search(restClient, "email");
+
+    }
+
+    @Test(expected = JiraException.class)
+    public void testSearchError() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.get(anyString(),anyMap())).thenThrow(Exception.class);
+        User.search(restClient, "email");
+    }
+
+    @Test
+    public void testSearchNoResults() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.get(anyString(), anyMap())).thenReturn(new JSONArray());
+
+        final List<User> users = User.search(restClient, "email");
+
+        assertEquals(users.size(), 0);
+    }
+
+    @Test
+    public void testSearch() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.get(anyString(), anyMap())).thenReturn(getTestJSONArray());
+
+        final List<User> users = User.search(restClient, "email");
+        User user = users.get(0);
 
         assertEquals(user.getName(), username);
         assertEquals(user.getDisplayName(), displayName);
