@@ -20,9 +20,12 @@
 package net.rcarz.jiraclient;
 
 import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -75,6 +78,37 @@ public class User extends Resource {
             throw new JiraException("JSON payload is malformed");
 
         return new User(restclient, (JSONObject) result);
+    }
+
+    /**
+     *  Retrieves list of user records by query (name, username, email)
+     *  See (https://developer.atlassian.com/cloud/jira/platform/rest/?#api-api-2-user-search-get)
+     *
+     * @param restclient REST client instance
+     * @param query The query for the search (name, username, email)
+     * @return a list of user instances
+     * @throws JiraException when the retrieval fails
+     */
+    public static List<User> search(RestClient restclient, String query) throws JiraException {
+        List<User> result = new ArrayList<>();
+        JSON response = null;
+
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("username", query);
+
+        try {
+            response = restclient.get(getBaseUri() + "user/search", params);
+        } catch (Exception ex) {
+            throw new JiraException("Failed to retrieve user with query " + query, ex);
+        }
+
+        if (!(response instanceof JSONArray))
+            throw new JiraException("JSON payload is malformed");
+
+        ((JSONArray) response).forEach(
+                j -> result.add(new User(restclient, (JSONObject) j))
+        );
+        return result;
     }
 
     private void deserialise(JSONObject json) {
