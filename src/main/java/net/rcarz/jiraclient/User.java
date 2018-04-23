@@ -111,20 +111,29 @@ public class User extends Resource {
         return result;
     }
 
-    public static void create(RestClient restClient, String email, String displayName) throws JiraException{
+    public static User create(RestClient restClient, String email, String displayName) throws JiraException{
+        JSON result = null;
+
         JSONObject params = new JSONObject();
         params.put("email", email);
         params.put("displayName", displayName);
 
         try {
-            restClient.post("/rest/servicedeskapi/customer", params);
+            result = restClient.post("/rest/servicedeskapi/customer", params);
         } catch (Exception ex) {
             if(ex instanceof RestException && ((RestException) ex).getHttpStatusCode() == 400) {
                 //user already existed in the system
+                return get(restClient, email);
             } else {
                 throw new JiraException("Failed to create user with params " + params.toString(), ex);
             }
         }
+
+        if (!(result instanceof JSONObject))
+            throw new JiraException("JSON payload is malformed");
+
+        return new User(restClient, (JSONObject) result);
+
     }
 
     private void deserialise(JSONObject json) {

@@ -171,17 +171,48 @@ public class UserTest {
     @Test
     public void testCreate() throws Exception {
         final RestClient restClient = PowerMockito.mock(RestClient.class);
-        when(restClient.post(anyString(), any(JSONObject.class))).thenReturn(getTestJSONArray());
+        when(restClient.post(anyString(), any(JSONObject.class))).thenReturn(getTestJSON());
 
-        User.create(restClient, "email", "displayName");
+        final User user = User.create(restClient, "email", "displayName");
+
+        assertEquals(user.getName(), username);
+        assertEquals(user.getDisplayName(), displayName);
+        assertEquals(user.getEmail(), email);
+        assertEquals(user.getId(), userID);
+
+        Map<String, String> avatars = user.getAvatarUrls();
+
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=16", avatars.get("16x16"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24", avatars.get("24x24"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=32", avatars.get("32x32"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48", avatars.get("48x48"));
+
+        assertTrue(user.isActive());
+
     }
 
     @Test
     public void testCreate_doesNotThrowExceptionOn400Response() throws Exception {
         final RestClient restClient = PowerMockito.mock(RestClient.class);
         when(restClient.post(anyString(), any(JSONObject.class))).thenThrow(new RestException("msg", 400, "result", new Header[0]));
+        when(restClient.get(anyString(), anyMap())).thenReturn(getTestJSON());
 
-        User.create(restClient, "email", "displayName");
+        final User user = User.create(restClient, "email", "displayName");
+
+        assertEquals(user.getName(), username);
+        assertEquals(user.getDisplayName(), displayName);
+        assertEquals(user.getEmail(), email);
+        assertEquals(user.getId(), userID);
+
+        Map<String, String> avatars = user.getAvatarUrls();
+
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=16", avatars.get("16x16"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24", avatars.get("24x24"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=32", avatars.get("32x32"));
+        assertEquals("https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48", avatars.get("48x48"));
+
+        assertTrue(user.isActive());
+
     }
 
     @Test(expected = JiraException.class)
