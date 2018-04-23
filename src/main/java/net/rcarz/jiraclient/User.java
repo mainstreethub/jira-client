@@ -111,6 +111,22 @@ public class User extends Resource {
         return result;
     }
 
+    public static void create(RestClient restClient, String email, String displayName) throws JiraException{
+        JSONObject params = new JSONObject();
+        params.put("email", email);
+        params.put("displayName", displayName);
+
+        try {
+            restClient.post("/rest/servicedeskapi/customer", params);
+        } catch (Exception ex) {
+            if(ex instanceof RestException && ((RestException) ex).getHttpStatusCode() == 400) {
+                //user already existed in the system
+            } else {
+                throw new JiraException("Failed to create user with params " + params.toString(), ex);
+            }
+        }
+    }
+
     private void deserialise(JSONObject json) {
         Map map = json;
 

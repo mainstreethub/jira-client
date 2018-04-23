@@ -2,6 +2,8 @@ package net.rcarz.jiraclient;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.http.Header;
+import org.apache.http.message.BasicHeader;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
@@ -13,6 +15,7 @@ import java.util.Map;
 
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.when;
@@ -164,4 +167,29 @@ public class UserTest {
 
         assertTrue(user.isActive());
     }
+
+    @Test
+    public void testCreate() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.post(anyString(), any(JSONObject.class))).thenReturn(getTestJSONArray());
+
+        User.create(restClient, "email", "displayName");
+    }
+
+    @Test
+    public void testCreate_doesNotThrowExceptionOn400Response() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.post(anyString(), any(JSONObject.class))).thenThrow(new RestException("msg", 400, "result", new Header[0]));
+
+        User.create(restClient, "email", "displayName");
+    }
+
+    @Test(expected = JiraException.class)
+    public void testCreate_doesNotThrowExceptionOnOtherResponse() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.post(anyString(), any(JSONObject.class))).thenThrow(new RestException("msg", 500, "result", new Header[0]));
+
+        User.create(restClient, "email", "displayName");
+    }
+
 }
