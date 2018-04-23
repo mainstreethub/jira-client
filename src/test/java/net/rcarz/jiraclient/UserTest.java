@@ -171,8 +171,7 @@ public class UserTest {
     @Test
     public void testCreate() throws Exception {
         final RestClient restClient = PowerMockito.mock(RestClient.class);
-        when(restClient.post(anyString(), any(JSONObject.class))).thenReturn(getTestJSONArray());
-        when(restClient.get(anyString(), anyMap())).thenReturn(getTestJSON());
+        when(restClient.post(anyString(), any(JSONObject.class))).thenReturn(getTestJSON());
 
         final User user = User.create(restClient, "email", "displayName");
 
