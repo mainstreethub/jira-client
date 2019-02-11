@@ -3,7 +3,7 @@ import com.mainstreethub.jenkins.pipelines.java.library.Pipeline
 
 def notifier = new Notifier([
   steps: this,
-  ownerChannels: ["cxm-ops"]
+  ownerChannels: ["gps-ew-ops"]
 ])
 
 new Pipeline(this).run([
