@@ -41,11 +41,11 @@ public class WorklogTest {
 
         mockJSONObject.put("created",dateString);
         final JSONObject userJSON = new JSONObject();
-        userJSON.put("name","Joseph McCarthy");
+        userJSON.put("accountId","7de3fbbc-4609-4a52-b1a4-5b8eaf894175");
         mockJSONObject.put("author", userJSON);
 
         WorkLog workLog = new WorkLog(mockRestClient,mockJSONObject);
-        assertEquals(workLog.getCreatedDate() + " by Joseph McCarthy",workLog.toString());
+        assertEquals(workLog.getCreatedDate() + " by 7de3fbbc-4609-4a52-b1a4-5b8eaf894175",workLog.toString());
     }
 
     @Test
@@ -58,14 +58,14 @@ public class WorklogTest {
         assertEquals("comment for worklog 1", workLog.getComment());
         assertEquals("6h", workLog.getTimeSpent());
         assertEquals("45517", workLog.getId());
-        String author = "joseph";
-        assertEquals(author, workLog.getAuthor().getName());
+        String author = "7de3fbbc-4609-4a52-b1a4-5b8eaf894175";
+        assertEquals(author, workLog.getAuthor().getAccountId());
         String started = "2015-08-17T13:19:00.000+0400";
         assertEquals(simpleDateFormat.parse(started), workLog.getStarted());
         String created = "2015-08-20T13:19:44.000+0400";
         assertEquals(simpleDateFormat.parse(created), workLog.getCreatedDate());
         assertEquals(21600, workLog.getTimeSpentSeconds());
-        assertEquals(author, workLog.getUpdateAuthor().getName());
+        assertEquals(author, workLog.getUpdateAuthor().getAccountId());
     }
 
 }

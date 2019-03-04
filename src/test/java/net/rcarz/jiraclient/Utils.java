@@ -54,7 +54,7 @@ public class Utils {
         "    \"timespent\": 86400,\n" +
         "    \"reporter\": {\n" +
         "      \"self\": \"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\",\n" +
-        "      \"name\": \"joseph\",\n" +
+        "      \"accountId\": \"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
         "      \"emailAddress\": \"joseph.b.mccarthy2012@googlemail.com\",\n" +
         "      \"avatarUrls\": {\n" +
         "        \"16x16\": \"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=16\",\n" +
@@ -164,7 +164,7 @@ public class Utils {
         "          \"id\": \"10500\",\n" +
         "          \"author\": {\n" +
         "            \"self\": \"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\",\n" +
-        "            \"name\": \"joseph\",\n" +
+        "            \"accountId\": \"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
         "            \"emailAddress\": \"joseph.b.mccarthy2012@googlemail.com\",\n" +
         "            \"avatarUrls\": {\n" +
         "              \"16x16\": \"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=16\",\n" +
@@ -178,7 +178,7 @@ public class Utils {
         "          \"body\": \"&#116;&#104;&#105;&#115;&#32;&#105;&#115;&#32;&#110;&#111;&#116;&#32;&#114;&#101;&#97;&#108;&#108;&#121;&#32;&#97;&#115;&#115;&#105;&#103;&#110;&#101;&#100;&#32;&#116;&#111;&#32;&#109;&#101;&#44;&#32;&#106;&#117;&#115;&#116;&#32;&#116;&#101;&#115;&#116;&#105;&#110;&#103;&#32;&#111;&#117;&#116;&#32;&#116;&#104;&#101;&#32;&#105;&#110;&#116;&#101;&#108;&#108;&#105;&#106;&#32;&#45;&#32;&#106;&#105;&#114;&#97;&#32;&#112;&#108;&#117;&#103;&#105;&#110;&#32;&#58;&#41;\",\n" +
         "          \"updateAuthor\": {\n" +
         "            \"self\": \"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\",\n" +
-        "            \"name\": \"joseph\",\n" +
+        "            \"accountId\": \"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
         "            \"emailAddress\": \"joseph.b.mccarthy2012@googlemail.com\",\n" +
         "            \"avatarUrls\": {\n" +
         "              \"16x16\": \"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=16\",\n" +
@@ -212,7 +212,7 @@ public class Utils {
                 "         \"self\":\"https://brainbubble.atlassian.net/rest/api/latest/issue/10742/worklog/45517\",\n" +
                 "         \"author\":{  \n" +
                 "            \"self\":\"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\", \n" +
-                "            \"name\":\"joseph\",\n" +
+                "            \"accountId\":\"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
                 "            \"avatarUrls\":{  \n" +
                 "               \"48x48\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48\",\n" +
                 "               \"24x24\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24\",\n" +
@@ -224,7 +224,7 @@ public class Utils {
                 "         },\n" +
                 "         \"updateAuthor\":{  \n" +
                 "            \"self\":\"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\",\n" +
-                "            \"name\":\"joseph\",\n" +
+                "            \"accountId\":\"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
                 "            \"avatarUrls\":{  \n" +
                 "               \"48x48\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48\",\n" +
                 "               \"24x24\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24\",\n" +
@@ -246,7 +246,7 @@ public class Utils {
                 "         \"self\":\"https://brainbubble.atlassian.net/rest/api/latest/issue/10742/worklog/45518\",\n" +
                 "         \"author\":{  \n" +
                 "            \"self\":\"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\",\n" +
-                "            \"name\":\"joseph\",\n" +
+                "            \"accountId\":\"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
                 "            \"avatarUrls\":{  \n" +
                 "               \"48x48\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48\",\n" +
                 "               \"24x24\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24\",\n" +
@@ -258,7 +258,7 @@ public class Utils {
                 "         },\n" +
                 "         \"updateAuthor\":{  \n" +
                 "            \"self\":\"https://brainbubble.atlassian.net/rest/api/2/user?username=joseph\",\n" +
-                "            \"name\":\"joseph\",\n" +
+                "            \"accountId\":\"7de3fbbc-4609-4a52-b1a4-5b8eaf894175\",\n" +
                 "            \"avatarUrls\":{  \n" +
                 "               \"48x48\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=48\",\n" +
                 "               \"24x24\":\"https://secure.gravatar.com/avatar/a5a271f9eee8bbb3795f41f290274f8c?d=mm&s=24\",\n" +
