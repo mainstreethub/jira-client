@@ -3,6 +3,7 @@ package net.rcarz.jiraclient;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.http.Header;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.powermock.api.mockito.PowerMockito;
 
@@ -19,6 +20,7 @@ import static org.mockito.Matchers.anyMap;
 import static org.mockito.Matchers.anyString;
 import static org.powermock.api.mockito.PowerMockito.when;
 
+@Ignore
 public class UserTest {
 
     private java.lang.String accountId = "7de3fbbc-4609-4a52-b1a4-5b8eaf894175";

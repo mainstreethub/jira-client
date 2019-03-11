@@ -123,6 +123,7 @@ public class RestClient {
 
     private JSON request(HttpRequestBase req) throws RestException, IOException {
         req.addHeader("Accept", "application/json");
+        req.addHeader("x-atlassian-force-account-id", "true");
 
         if (creds != null)
             creds.authenticate(req);

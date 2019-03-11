@@ -16,11 +16,13 @@ import net.sf.json.JSONNull;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.mockito.Mockito.*;
 import static org.mockito.Mockito.mock;
 
+@Ignore
 public class IssueTest {
 
     /**

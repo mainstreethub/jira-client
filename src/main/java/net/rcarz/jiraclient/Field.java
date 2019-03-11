@@ -75,7 +75,7 @@ public final class Field {
      * Allowed value types.
      */
     public enum ValueType {
-        KEY("key"), NAME("name"), ID_NUMBER("id"), VALUE("value");
+        KEY("key"), NAME("name"), ACCOUNT_ID("accountId"), ID_NUMBER("id"), VALUE("value");
         private String typeName;
 
         private ValueType(String typeName) {
@@ -610,15 +610,25 @@ public final class Field {
                 realValue = val;
 
             if (type.equals("component") || type.equals("group") ||
-                type.equals("user") || type.equals("version")) {
+                type.equals("version")) {
 
                 JSONObject itemMap = new JSONObject();
 
                 if (realValue instanceof ValueTuple) {
-                    ValueTuple tuple = (ValueTuple)realValue;
+                    ValueTuple tuple = (ValueTuple) realValue;
                     itemMap.put(tuple.type, tuple.value.toString());
                 } else
                     itemMap.put(ValueType.NAME.toString(), realValue.toString());
+
+                realResult = itemMap;
+            } else if (type.equals("user")) {
+                JSONObject itemMap = new JSONObject();
+
+                if (realValue instanceof ValueTuple) {
+                    ValueTuple tuple = (ValueTuple) realValue;
+                    itemMap.put(tuple.type, tuple.value.toString());
+                } else
+                    itemMap.put(ValueType.ACCOUNT_ID.toString(), realValue.toString());
 
                 realResult = itemMap;
             } else if ( type.equals("option") ||
@@ -688,16 +698,28 @@ public final class Field {
             SimpleDateFormat df = new SimpleDateFormat(DATETIME_FORMAT);
             return df.format(value);
         } else if (m.type.equals("issuetype") || m.type.equals("priority") ||
-                m.type.equals("user") || m.type.equals("resolution") || m.type.equals("securitylevel")) {
+                m.type.equals("resolution") || m.type.equals("securitylevel")) {
             JSONObject json = new JSONObject();
 
             if (value == null)
                 return JSONNull.getInstance();
             else if (value instanceof ValueTuple) {
-                ValueTuple tuple = (ValueTuple)value;
+                ValueTuple tuple = (ValueTuple) value;
                 json.put(tuple.type, tuple.value.toString());
             } else
                 json.put(ValueType.NAME.toString(), value.toString());
+
+            return json.toString();
+        } else if(m.type.equals("user")) {
+            JSONObject json = new JSONObject();
+
+            if (value == null)
+                return JSONNull.getInstance();
+            else if (value instanceof ValueTuple) {
+                ValueTuple tuple = (ValueTuple) value;
+                json.put(tuple.type, tuple.value.toString());
+            } else
+                json.put(ValueType.ACCOUNT_ID.toString(), value.toString());
 
             return json.toString();
         } else if (m.type.equals("project") || m.type.equals("issuelink")) {
@@ -788,6 +810,17 @@ public final class Field {
      */
     public static ValueTuple valueByKey(String key) {
         return new ValueTuple(ValueType.KEY, key);
+    }
+
+    /**
+     * Create a value tuple with value type of accountId.
+     *
+     * @param accountId The id of the account
+     *
+     * @return a value tuple
+     */
+    public static ValueTuple valueByAccountId(String accountId) {
+        return new ValueTuple(ValueType.ACCOUNT_ID, accountId);
     }
 
     /**
