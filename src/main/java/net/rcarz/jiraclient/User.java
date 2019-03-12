@@ -37,7 +37,7 @@ public class User extends Resource {
     private Map<String, String> avatarUrls = null;
     private String displayName = null;
     private String email = null;
-    private String name = null;
+    private String accountId = null;
 
     /**
      * Creates a user from a JSON payload.
@@ -53,53 +53,25 @@ public class User extends Resource {
     }
 
     /**
-     * Retrieves the given user record.
-     *
-     * @param restclient REST client instance
-     * @param username   User logon name
-     * @return a user instance
-     * @throws JiraException when the retrieval fails
-     */
-    public static User get(RestClient restclient, String username)
-            throws JiraException {
-
-        JSON result = null;
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("username", username);
-
-        try {
-            result = restclient.get(getBaseUri() + "user", params);
-        } catch (Exception ex) {
-            throw new JiraException("Failed to retrieve user " + username, ex);
-        }
-
-        if (!(result instanceof JSONObject))
-            throw new JiraException("JSON payload is malformed");
-
-        return new User(restclient, (JSONObject) result);
-    }
-
-    /**
      *  Retrieves list of user records by query (name, username, email)
      *  See (https://developer.atlassian.com/cloud/jira/platform/rest/?#api-api-2-user-search-get)
      *
      * @param restclient REST client instance
-     * @param query The query for the search (name, username, email)
+     * @param attribute The attribute for the search (name, username, email)
      * @return a list of user instances
      * @throws JiraException when the retrieval fails
      */
-    public static List<User> search(RestClient restclient, String query) throws JiraException {
+    public static List<User> search(RestClient restclient, String attribute) throws JiraException {
         List<User> result = new ArrayList<>();
         JSON response = null;
 
         Map<String, String> params = new HashMap<String, String>();
-        params.put("username", query);
+        params.put("query", attribute);
 
         try {
             response = restclient.get(getBaseUri() + "user/search", params);
         } catch (Exception ex) {
-            throw new JiraException("Failed to retrieve user with query " + query, ex);
+            throw new JiraException("Failed to retrieve user with attribute " + attribute, ex);
         }
 
         if (!(response instanceof JSONArray))
@@ -123,7 +95,7 @@ public class User extends Resource {
         } catch (Exception ex) {
             if(ex instanceof RestException && ((RestException) ex).getHttpStatusCode() == 400) {
                 //user already existed in the system
-                return get(restClient, email);
+                return search(restClient, email).get(0);
             } else {
                 throw new JiraException("Failed to create user with params " + params.toString(), ex);
             }
@@ -145,7 +117,7 @@ public class User extends Resource {
         avatarUrls = Field.getMap(String.class, String.class, map.get("avatarUrls"));
         displayName = Field.getString(map.get("displayName"));
         email = getEmailFromMap(map);
-        name = Field.getString(map.get("name"));
+        accountId = Field.getString(map.get("accountId"));
     }
 
     /**
@@ -160,11 +132,6 @@ public class User extends Resource {
         } else {
             return Field.getString(map.get("emailAddress"));
         }
-    }
-
-    @Override
-    public String toString() {
-        return getName();
     }
 
     public boolean isActive() {
@@ -183,8 +150,13 @@ public class User extends Resource {
         return email;
     }
 
-    public String getName() {
-        return name;
+    public String getAccountId() {
+        return accountId;
+    }
+
+    @Override
+    public String toString() {
+        return getAccountId();
     }
 }
 
