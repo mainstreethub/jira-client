@@ -179,6 +179,18 @@ public class UserTest {
 
     }
 
+    @Test
+    public void testCreate_doesNotThrowExceptionOn400ResponseReturnEmptyUser() throws Exception {
+        final RestClient restClient = PowerMockito.mock(RestClient.class);
+        when(restClient.post(anyString(), any(JSONObject.class))).thenThrow(new RestException("msg", 400, "result", new Header[0]));
+        when(restClient.get(anyString(), anyMap())).thenReturn(new JSONArray());
+
+
+        final User user = User.create(restClient, "email", "displayName");
+
+        assertEquals(user, null);
+    }
+
     @Test(expected = JiraException.class)
     public void testCreate_doesNotThrowExceptionOnOtherResponse() throws Exception {
         final RestClient restClient = PowerMockito.mock(RestClient.class);
