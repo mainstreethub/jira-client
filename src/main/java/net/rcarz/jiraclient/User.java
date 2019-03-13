@@ -84,7 +84,7 @@ public class User extends Resource {
     }
 
     public static User create(RestClient restClient, String email, String displayName) throws JiraException{
-        JSON result = null;
+        JSON result;
 
         JSONObject params = new JSONObject();
         params.put("email", email);
@@ -95,7 +95,13 @@ public class User extends Resource {
         } catch (Exception ex) {
             if(ex instanceof RestException && ((RestException) ex).getHttpStatusCode() == 400) {
                 //user already existed in the system
-                return search(restClient, email).get(0);
+                List<User> searchResult = search(restClient, email);
+                if (searchResult.size() > 0) {
+                    return searchResult.get(0);
+                } else {
+                    // the user won't be found if they're inactive in jira but can't be created with dupe email
+                    return null;
+                }
             } else {
                 throw new JiraException("Failed to create user with params " + params.toString(), ex);
             }
