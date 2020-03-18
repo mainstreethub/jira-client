@@ -31,6 +31,19 @@
     </developer>
   </developers>
 
+  <distributionManagement>
+    <repository>
+      <id>artifactory.secureserver</id>
+      <name>Artifactory</name>
+      <url>https://artifactory.secureserver.net/artifactory/maven-mainstreethub-prod-local</url>
+    </repository>
+    <snapshotRepository>
+      <id>artifactory.secureserver</id>
+      <name>Artifactory</name>
+      <url>https://artifactory.secureserver.net/artifactory/maven-mainstreethub-prod-local</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <dependencies>
 
     <dependency>
