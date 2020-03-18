@@ -31,6 +31,14 @@
     </developer>
   </developers>
 
+  <distributionManagement>
+    <repository>
+      <id>artifactory.secureserver</id>
+      <name>Artifactory</name>
+      <url>https://artifactory.secureserver.net/artifactory/java-virt</url>
+    </repository>
+  </distributionManagement>
+
   <dependencies>
 
     <dependency>
