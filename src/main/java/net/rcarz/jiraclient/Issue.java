@@ -143,6 +143,10 @@ public class Issue extends Resource {
             fields.put(name, value);
             return this;
         }
+
+        public JSONObject getCreatemeta() {
+            return createmeta;
+        }
     }
 
 
