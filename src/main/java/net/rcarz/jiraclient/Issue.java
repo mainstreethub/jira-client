@@ -322,7 +322,7 @@ public class Issue extends Resource {
             Map<String, String> queryParams = new HashMap<String, String>();
             queryParams.put("jql", j);
             queryParams.put("maxResults", "1");
-            URI searchUri = restclient.buildURI(getBaseUri() + "search", queryParams);
+            URI searchUri = restclient.buildURI(getBaseUri() + "search/jql", queryParams);
             result = restclient.get(searchUri);
         } catch (Exception ex) {
             throw new JiraException("Failed to search issues", ex);
@@ -552,7 +552,7 @@ public class Issue extends Resource {
         private Integer startAt;
         private List<Issue> issues;
         private int total;
-        
+
         public IssueIterator(RestClient restclient, String jql, String includedFields,
                              String expandFields, Integer maxResults, Integer startAt)
                              throws JiraException {
@@ -563,7 +563,7 @@ public class Issue extends Resource {
             this.maxResults = maxResults;
             this.startAt = startAt;
         }
-        
+
         @Override
         public boolean hasNext() {
             if (nextIssue != null) {
@@ -597,7 +597,7 @@ public class Issue extends Resource {
          * Gets the next issue, returning null if none more available
          * Will ask the next set of issues from the server if the end
          * of the current list of issues is reached.
-         * 
+         *
          * @return the next issue, null if none more available
          * @throws JiraException
          */
@@ -611,7 +611,7 @@ public class Issue extends Resource {
                     return currentPage.next();
                 }
             }
-            
+
             // check if we need to get the next set of issues
             if (! currentPage.hasNext()) {
                 currentPage = getNextIssues().iterator();
@@ -629,7 +629,7 @@ public class Issue extends Resource {
          * Execute the query to get the next set of issues.
          * Also sets the startAt, maxMresults, total and issues fields,
          * so that the SearchResult can access them.
-         * 
+         *
          * @return the next set of issues.
          * @throws JiraException
          */
@@ -654,9 +654,9 @@ public class Issue extends Resource {
                 throw new JiraException("JSON payload is malformed");
             }
 
-            
+
             Map map = (Map) result;
-    
+
             this.startAt = Field.getInteger(map.get("startAt"));
             this.maxResults = Field.getInteger(map.get("maxResults"));
             this.total = Field.getInteger(map.get("total"));
@@ -664,7 +664,7 @@ public class Issue extends Resource {
             return issues;
         }
     }
-    
+
     /**
      * Issue search results structure.
      *
@@ -689,7 +689,7 @@ public class Issue extends Resource {
         public SearchResult() {
         }
 
-        public SearchResult(RestClient restclient, String jql, String includedFields, 
+        public SearchResult(RestClient restclient, String jql, String includedFields,
                             String expandFields, Integer maxResults, Integer startAt)
                             throws JiraException {
             this.issueIterator = new IssueIterator(
@@ -710,7 +710,7 @@ public class Issue extends Resource {
 
         /**
          * All issues found.
-         * 
+         *
          * @return All issues found.
          */
         public Iterator<Issue> iterator() {
@@ -1028,11 +1028,11 @@ public class Issue extends Resource {
      * @throws JiraException when the attachment removal fails
      */
     public void removeAttachment(String attachmentId) throws JiraException {
-    
+
         if (attachmentId == null) {
             throw new NullPointerException("attachmentId may not be null");
         }
-    
+
         try {
             restclient.delete(getBaseUri() + "attachment/" + attachmentId);
         } catch (Exception ex) {
@@ -1359,7 +1359,7 @@ public class Issue extends Resource {
      * </ul>
      *
      * @param maxResults if non-<code>null</code>, defines the maximum number of
-     * results that can be returned 
+     * results that can be returned
      *
      * @param startAt if non-<code>null</code>, defines the first issue to
      * return
@@ -1386,7 +1386,7 @@ public class Issue extends Resource {
 
     /**
      * Creates the URI to execute a jql search.
-     * 
+     *
      * @param restclient
      * @param jql
      * @param includedFields
@@ -1414,7 +1414,7 @@ public class Issue extends Resource {
             queryParams.put("startAt", String.valueOf(startAt));
         }
 
-        URI searchUri = restclient.buildURI(getBaseUri() + "search", queryParams);
+        URI searchUri = restclient.buildURI(getBaseUri() + "search/jql", queryParams);
         return searchUri;
     }
 
