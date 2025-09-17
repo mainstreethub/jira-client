@@ -614,6 +614,10 @@ public class Issue extends Resource {
 
             // check if we need to get the next set of issues
             if (! currentPage.hasNext()) {
+                // CRITICAL FIX: Don't make additional API calls if we know there are no more results
+                if (total == 0 || (startAt != null && startAt >= total)) {
+                    return null;
+                }
                 currentPage = getNextIssues().iterator();
             }
 
@@ -659,8 +663,12 @@ public class Issue extends Resource {
 
             this.startAt = Field.getInteger(map.get("startAt"));
             this.maxResults = Field.getInteger(map.get("maxResults"));
-            this.total = Field.getInteger(map.get("total"));
+            
+            // Fix: Get total from API response, but if it's 0 or null, use issues.size()
+            Integer apiTotal = Field.getInteger(map.get("total"));
             this.issues = Field.getResourceArray(Issue.class, map.get("issues"), restclient);
+            this.total = (apiTotal != null && apiTotal > 0) ? apiTotal : this.issues.size();
+            
             return issues;
         }
     }

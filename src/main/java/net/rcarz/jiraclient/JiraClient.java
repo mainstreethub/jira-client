@@ -193,7 +193,7 @@ public class JiraClient {
     public Issue.SearchResult searchIssues(String jql)
             throws JiraException {
 
-        return searchIssues(jql, null, null, null, null);
+        return searchIssues(jql, "*all", null, null, null);
     }
 
     /**
